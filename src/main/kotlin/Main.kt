@@ -1,4 +1,3 @@
-import java.util.Scanner
 import models.Cliente
 import models.Pedido
 import models.Detalle
@@ -6,12 +5,14 @@ import models.Producto
 import models.Pago
 import enumerations.Estado
 import data.ListaClientes
+import data.ListaProductos
 import enumerations.Tarjeta
 import models.PagoCheque
 import models.PagoCuotas
 import models.PagoEfectivo
 import models.PagoTarjetaCredito
 import java.time.LocalDate
+import java.util.*
 
 fun main() {
     val scanner = Scanner(System.`in`)
@@ -42,37 +43,66 @@ fun main() {
             println("4. Salir")
             println("Selecciona una opción:")
 
-            when (scanner.nextInt()) {
+            val opcion = try {
+                scanner.nextInt()
+            } catch (e: InputMismatchException) {
+                println("Opción no válida, por favor ingresa un número.")
+                scanner.nextLine() // Limpiar la entrada
+                continue
+            }
+
+            when (opcion) {
                 1 -> {
                     val nuevoPedido = Pedido()
                     var agregarDetalle = true
                     println("Lista de productos disponibles:")
 
-                    Producto.listaProductos.forEach {
+                    ListaProductos
+
+                    data.ListaProductos.forEach {
                         val estadoStock = if (it.stock > 0) "${it.stock}" else "Agotado"
                         println("ID: ${it.idProducto}, Producto: ${it.nombreProducto}, Precio: ${it.precioUnitario}, Stock: $estadoStock")
                     }
 
                     while (agregarDetalle) {
                         print("Ingrese el ID del producto que desea comprar:")
-                        val productoId = scanner.nextInt()
-                        val producto = Producto.listaProductos.find { it.idProducto == productoId }
+                        //val productoId = scanner.nextInt()
+                        val productoId = try {
+                            scanner.nextInt()
+                        } catch (e: InputMismatchException) {
+                            println("Opción no válida, por favor ingresa un número valido.")
+                            scanner.nextLine() // Limpiar la entrada
+                            continue
+                        }
+                        //val producto = Producto.listaProductos.find { it.idProducto == productoId }
+                        val producto = data.ListaProductos.find { it.idProducto == productoId }
 
                         // Verificar si el producto existe y tiene stock disponible
                         if (producto != null) {
                             if (producto.stock > 0) {
                                 print("Ingrese la cantidad:")
-                                val cantidad = scanner.nextInt()
+                                //val cantidad = scanner.nextInt()
+                                var cantidadNoPermitida = true
+                                while(cantidadNoPermitida){
+                                    val cantidad = try {
+                                        scanner.nextInt()
+                                    } catch (e: InputMismatchException) {
+                                        print("Opción no válida, por favor ingrese una cantidad válida: ")
+                                        scanner.nextLine() // Limpiar la entrada
+                                        continue
+                                    }
 
-                                if (cantidad <= producto.stock) {
-                                    val detalle = Detalle(producto, cantidad)
-                                    nuevoPedido.agregarDetalle(detalle)
+                                    if (cantidad <= producto.stock) {
+                                        val detalle = Detalle(producto, cantidad)
+                                        nuevoPedido.agregarDetalle(detalle)
 
-                                    // Reducir el stock del producto
-                                    producto.stock -= cantidad
-                                    println("Producto ${producto.nombreProducto} agregado al pedido.")
-                                } else {
-                                    println("No hay suficiente stock para la cantidad solicitada.")
+                                        // Reducir el stock del producto
+                                        //producto.stock -= cantidad
+                                        println("Producto ${producto.nombreProducto} agregado al pedido.")
+                                    } else {
+                                        println("No hay suficiente stock para la cantidad solicitada.")
+                                    }
+                                    cantidadNoPermitida = false
                                 }
                             } else {
                                 println("El producto está agotado.")
@@ -102,7 +132,14 @@ fun main() {
                         }
 
                         println("Seleccione el índice del pedido a pagar (0 a ${pedidos.size - 1}):")
-                        val indicePedido = scanner.nextInt()
+                        //val indicePedido = scanner.nextInt()
+                        val indicePedido = try {
+                            scanner.nextInt()
+                        } catch (e: InputMismatchException) {
+                            println("Opción no válida, por favor ingresa un número valido.")
+                            scanner.nextLine() // Limpiar la entrada
+                            continue
+                        }
                         if (indicePedido in pedidos.indices) {
                             val pedido = pedidos[indicePedido]
                             pedido.mostrarResumen()
@@ -111,7 +148,16 @@ fun main() {
                             println("2. Cheque")
                             println("3. Efectivo")
                             println("4. Cuotas")
-                            val metodoPago = scanner.nextInt()
+                            //val metodoPago = scanner.nextInt()
+
+                            val metodoPago = try {
+                                scanner.nextInt()
+                            } catch (e: InputMismatchException) {
+                                println("Opción no válida, por favor ingresa un número valido.")
+                                scanner.nextLine() // Limpiar la entrada
+                                continue
+                            }
+
 
                             val pago: Pago = when (metodoPago) {
                                 1 -> {

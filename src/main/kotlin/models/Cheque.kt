@@ -9,7 +9,8 @@ class PagoCheque(
     var entidadBancaria: String // Atributos específicos de PagoCheque
 ) : Pago(montoPagado, fechaPagado) {
     override fun procesarPago(): Boolean {
-        println("Procesando pago con cheque de $montoPagado el día $fechaPagado")
+        //println("Procesando pago con cheque de $montoPagado el día $fechaPagado")
+        println("Procesando pago con cheque N°$numeroCheque de $nombreTitular mediante $entidadBancaria por un monto de $montoPagado el día $fechaPagado")
         return true
     }
 }

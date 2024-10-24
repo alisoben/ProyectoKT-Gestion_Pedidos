@@ -1,19 +1,22 @@
 package models
 
-class Producto(
-    val idProducto: Int,
-    var nombreProducto: String,
-    var precioUnitario: Double,
-    var stock: Int
-) {
-    // Lista de productos estática dentro de la clase
+class Producto(idProducto: Int, nombreProducto: String, precioUnitario: Double, stock: Int ){
+    var idProducto: Int = 0 //val
+    var nombreProducto: String = ""
+    var precioUnitario: Double = 0.0
+    var stock: Int = 0
+
+    init{
+        this.idProducto = idProducto
+        this.nombreProducto = nombreProducto
+        this.precioUnitario = precioUnitario
+        this.stock = stock
+    }
+
     companion object {
-        var listaProductos = listOf(
-            Producto(1, "Laptop", 899.99, 10),
-            Producto(2, "Teléfono", 499.99, 15),
-            Producto(3, "Tableta", 299.99, 20),
-            Producto(4, "Auriculares", 99.99, 50),
-            Producto(5, "Reloj", 199.99, 30)
-        )
+        fun ObtenerProducto(idProducto: Int, nombreProducto: String, precioUnitario: Double, stock: Int,
+                            listaProductos: List<Producto>): Boolean {
+            return listaProductos.any { it.nombreProducto == nombreProducto && it.idProducto == idProducto }
+        }
     }
 }
