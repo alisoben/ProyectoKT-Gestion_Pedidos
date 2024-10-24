@@ -6,6 +6,12 @@ import models.Producto
 import models.Pago
 import enumerations.Estado
 import data.ListaClientes
+import enumerations.Tarjeta
+import models.PagoCheque
+import models.PagoCuotas
+import models.PagoEfectivo
+import models.PagoTarjetaCredito
+import java.time.LocalDate
 
 fun main() {
     val scanner = Scanner(System.`in`)
@@ -59,7 +65,7 @@ fun main() {
                                 val cantidad = scanner.nextInt()
 
                                 if (cantidad <= producto.stock) {
-                                    val detalle = Detalle(producto.idProducto, cantidad)
+                                    val detalle = Detalle(producto, cantidad)
                                     nuevoPedido.agregarDetalle(detalle)
 
                                     // Reducir el stock del producto
@@ -86,22 +92,83 @@ fun main() {
 
                 2 -> {
                     // Pagar un pedido
-                    println("Seleccione el índice del pedido a pagar (0 a ${pedidos.size - 1}):")
-                    val indicePedido = scanner.nextInt()
-                    if (indicePedido in pedidos.indices) {
-                        val pedido = pedidos[indicePedido]
-                        val pago = Pago(pedido.costeTotal) // Crear un objeto Pago según tu lógica
-                        pedido.realizarPago(pago) // Realizar el pago
-                        println("Pago realizado. El estado del pedido es ahora: ${pedido.estado}")
-                    } else {
-                        println("Índice de pedido no válido.")
+                    if (pedidos.isEmpty()) {
+                        println("No hay pedidos para pagar.")
+                        continue
+                    }else{
+                        println("Lista de pedidos:")
+                        pedidos.forEachIndexed { index, pedido ->
+                            println("Pedido ${index + 1} : Estado: ${pedido.estado}, Coste Total: ${pedido.costeTotal}, Fecha de Pedido: ${pedido.fechaCreacion}")
+                        }
+
+                        println("Seleccione el índice del pedido a pagar (0 a ${pedidos.size - 1}):")
+                        val indicePedido = scanner.nextInt()
+                        if (indicePedido in pedidos.indices) {
+                            val pedido = pedidos[indicePedido]
+                            pedido.mostrarResumen()
+                            println("Seleccionar el metodo de pago: ")
+                            println("1. Tarjeta de crédito")
+                            println("2. Cheque")
+                            println("3. Efectivo")
+                            println("4. Cuotas")
+                            val metodoPago = scanner.nextInt()
+
+                            val pago: Pago = when (metodoPago) {
+                                1 -> {
+                                    println("Ingrese el número de tarjeta de crédito:")
+                                    val numeroTarjeta = scanner.next()
+                                    println("Ingrese la fecha de caducidad (YYYY-MM-DD):")
+                                    val fechaCaducidad = (LocalDate.parse(scanner.next()))
+                                    println("Ingrese el tipo de tarjeta (1. VISA, 2. MASTERCARD):")
+                                    val tipoTarjeta = if (scanner.nextInt() == 1) Tarjeta.VISA else Tarjeta.MASTERCARD
+                                    PagoTarjetaCredito(pedido.costeTotal, LocalDate.now(), numeroTarjeta, fechaCaducidad, tipoTarjeta)
+                                }
+
+                                2 -> {
+                                    println("Ingrese el nombre del titular:")
+                                    val nombreTitular = scanner.next()
+                                    println("Ingrese el número de cheque:")
+                                    val numeroCheque = scanner.next()
+                                    println("Ingrese el banco:")
+                                    var entidadBancaria = scanner.next()
+                                    PagoCheque(pedido.costeTotal, LocalDate.now(), nombreTitular, numeroCheque, entidadBancaria)
+                                }
+
+                                3 -> {
+                                    print("Ingrese la moneda:")
+                                    val moneda = scanner.next()
+                                    PagoEfectivo(pedido.costeTotal, LocalDate.now(), moneda)
+
+                                }
+
+                                4 ->{
+                                    print("Ingrese el número de cuotas:")
+                                    val numeroCuotas = scanner.nextInt()
+                                    val montoPorCuota = pedido.costeTotal / numeroCuotas
+                                    PagoCuotas(pedido.costeTotal, LocalDate.now(), numeroCuotas, montoPorCuota)
+                                }
+
+                                else -> {
+                                    println("Método de pago no válido.")
+                                    continue
+                                }
+                            }
+
+                            if (pedido.realizarPago(pago)) {
+                                println("Pago realizado. El estado del pedido es ahora: ${pedido.estado}")
+                            } else {
+                                println("Error al procesar el pago.")
+                            }
+                        } else {
+                            println("Índice de pedido no válido.")
+                        }
                     }
                 }
 
                 3 -> {
                     println("Mostrando el estado de los pedidos...")
                     pedidos.forEachIndexed { index, pedido ->
-                        println("Pedido $index: Estado: ${pedido.estado}, Coste Total: ${pedido.costeTotal}, Fecha de Pedido: ${pedido.fechaCreacion}")
+                        println("Pedido ${index + 1}: Estado: ${pedido.estado}, Coste Total: ${pedido.costeTotal}, Fecha de Pedido: ${pedido.fechaCreacion}")
                     }
                 }
 
