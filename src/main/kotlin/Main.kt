@@ -1,11 +1,18 @@
+import java.time.LocalDate
 import java.util.Scanner
 import models.Cliente
 import models.Pedido
 import models.Detalle
 import models.Producto
 import models.Pago
+import models.PagoCheque
+import models.PagoTarjetaCredito
+import models.PagoEfectivo
+import enumerations.Tarjeta
 import enumerations.Estado
 import data.ListaClientes
+import java.util.*
+
 
 fun main() {
     val scanner = Scanner(System.`in`)
@@ -36,7 +43,15 @@ fun main() {
             println("4. Salir")
             println("Selecciona una opción:")
 
-            when (scanner.nextInt()) {
+            val opcionMenu = try {
+                scanner.nextInt()
+            } catch (e: InputMismatchException) {
+                println("Opción no válida, por favor ingresa un número.")
+                scanner.nextLine() // Limpiar la entrada
+                continue
+            }
+
+            when (opcionMenu) {
                 1 -> {
                     val nuevoPedido = Pedido()
                     var agregarDetalle = true
@@ -56,6 +71,7 @@ fun main() {
                         if (producto != null) {
                             if (producto.stock > 0) {
                                 print("Ingrese la cantidad:")
+
                                 val cantidad = scanner.nextInt()
 
                                 if (cantidad <= producto.stock) {
@@ -90,9 +106,53 @@ fun main() {
                     val indicePedido = scanner.nextInt()
                     if (indicePedido in pedidos.indices) {
                         val pedido = pedidos[indicePedido]
-                        val pago = Pago(pedido.costeTotal) // Crear un objeto Pago según tu lógica
-                        pedido.realizarPago(pago) // Realizar el pago
-                        println("Pago realizado. El estado del pedido es ahora: ${pedido.estado}")
+
+                        // Elegir método de pago
+                        println("Seleccione el método de pago:")
+                        println("1. Cheque")
+                        println("2. Tarjeta de Crédito")
+                        println("3. Efectivo")
+                        when (scanner.nextInt()) {
+                            1 -> {
+                                println("Ingrese el nombre del titular del cheque:")
+                                val nombreTitular = scanner.next()
+                                println("Ingrese la entidad bancaria:")
+                                val entidadBancaria = scanner.next()
+                                val pago = PagoCheque(pedido.costeTotal, LocalDate.now(), nombreTitular, entidadBancaria)
+                                if (pago.procesarPago()) {
+                                    println("Pago con cheque procesado con éxito.")
+                                    pedido.realizarPago(pago)
+                                }
+                            }
+                            2 -> {
+                                println("Ingrese el número de tarjeta:")
+                                val numeroTarjeta = scanner.next()
+                                println("Ingrese la fecha de caducidad (AAAA-MM-DD):")
+                                val fechaCaducidad = LocalDate.parse(scanner.next())
+                                println("Seleccione el tipo de tarjeta (1. VISA, 2. MASTERCARD):")
+                                val tipoTarjeta = when (scanner.nextInt()) {
+                                    1 -> Tarjeta.VISA
+                                    2 -> Tarjeta.MASTERCARD
+                                    else -> Tarjeta.VISA
+                                }
+                                val pago = PagoTarjetaCredito(pedido.costeTotal, LocalDate.now(), numeroTarjeta, fechaCaducidad, tipoTarjeta)
+                                if (pago.procesarPago()) {
+                                    println("Pago con tarjeta procesado con éxito.")
+                                    pedido.realizarPago(pago)
+                                }
+                            }
+                            3 -> {
+                                println("Ingrese la moneda utilizada (USD, EUR, etc.):")
+                                val moneda = scanner.next()
+                                val pago = PagoEfectivo(pedido.costeTotal, LocalDate.now(), moneda)
+                                if (pago.procesarPago()) {
+                                    println("Pago en efectivo procesado con éxito.")
+                                    pedido.realizarPago(pago)
+                                }
+                            }
+                            else -> println("Opción no válida.")
+                        }
+                        println("El estado del pedido es ahora: ${pedido.estado}")
                     } else {
                         println("Índice de pedido no válido.")
                     }

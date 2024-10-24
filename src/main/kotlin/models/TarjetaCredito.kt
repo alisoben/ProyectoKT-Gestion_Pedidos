@@ -11,4 +11,8 @@ class PagoTarjetaCredito(
     var tipoTarjeta: Tarjeta // Tipo de tarjeta (VISA, MASTERCARD, etc.)
 ) : Pago(montoPagado, fechaPagado) {
     // Métodos específicos para PagoTarjetaCredito serán agregados más adelante
+    override fun procesarPago(): Boolean {
+        println("Procesando pago con tarjeta $tipoTarjeta con número $numeroTarjeta por un monto de $montoPagado")
+        return true
+    }
 }
