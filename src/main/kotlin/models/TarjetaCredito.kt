@@ -10,5 +10,8 @@ class PagoTarjetaCredito(
     var fechaCaducidad: LocalDate, // Fecha de caducidad de la tarjeta
     var tipoTarjeta: Tarjeta // Tipo de tarjeta (VISA, MASTERCARD, etc.)
 ) : Pago(montoPagado, fechaPagado) {
-    // Métodos específicos para PagoTarjetaCredito serán agregados más adelante
+    override fun procesarPago(): Boolean {
+        println("Procesando pago con tarjeta de crédito de $montoPagado el día $fechaPagado")
+        return true
+    }
 }

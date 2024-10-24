@@ -7,5 +7,8 @@ class PagoEfectivo(
     fechaPagado: LocalDate, // Se pasa al constructor de la clase base
     var moneda: String // Moneda utilizada en el pago (atributo específico de esta clase)
 ) : Pago(montoPagado, fechaPagado) {
-    // Métodos específicos para PagoEfectivo serán agregados más adelante
+    override fun procesarPago(): Boolean {
+        println("Procesando pago en efectivo de $montoPagado el día $fechaPagado")
+        return true
+    }
 }
