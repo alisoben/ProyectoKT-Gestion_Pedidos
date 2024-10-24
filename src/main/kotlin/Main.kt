@@ -116,6 +116,8 @@ fun main() {
                             val pago: Pago = when (metodoPago) {
                                 1 -> {
                                     println("Ingrese el número de tarjeta de crédito:")
+
+                                    //Incluir el pago a cuotas llamando a PagoCuotas...
                                     val numeroTarjeta = scanner.next()
                                     println("Ingrese la fecha de caducidad (YYYY-MM-DD):")
                                     val fechaCaducidad = (LocalDate.parse(scanner.next()))
