@@ -1,12 +1,12 @@
 package models
 
-class Cliente (nombre: String, codigo: String, telefono: Int,direccion: String ){
-    var nombre: String = ""
-    var codigo: String = ""
-    var telefono: Int = 0
-    var direccion: String = ""
+class Cliente (nombre: String, codigo: String, telefono: Int, direccion: String){
+    var nombre: String
+    var codigo: String
+    var telefono: Int
+    var direccion: String
 
-    init{
+    init {
         this.nombre = nombre
         this.codigo = codigo
         this.telefono = telefono
@@ -14,10 +14,12 @@ class Cliente (nombre: String, codigo: String, telefono: Int,direccion: String )
     }
 
     companion object {
-        fun ValidaCliente(nombre: String, codigo: String, listaClientes: List<Cliente>): Boolean {
-            return listaClientes.any { it.nombre == nombre && it.codigo == codigo }
-        }fun ObtenerCliente(codigo: String, listaClientes: List<Cliente>): Cliente? {
-            return listaClientes.find { it.codigo == codigo }
+        fun validaCliente(listaClientes: List<Cliente>, nombreInput: String, codigoInput: String): Boolean {
+            return listaClientes.any { it.nombre == nombreInput && it.codigo == codigoInput }
+        }
+
+        fun obtenerCliente(listaClientes: List<Cliente>, codigoInput: String): Cliente? {
+            return listaClientes.find { it.codigo == codigoInput }
         }
     }
 }

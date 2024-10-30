@@ -4,14 +4,13 @@ import enumerations.Tarjeta
 import java.time.LocalDate
 
 class PagoTarjetaCredito(
-    montoPagado: Double, // Se pasa al constructor de la clase base
-    fechaPagado: LocalDate, // Se pasa al constructor de la clase base
-    var numeroTarjeta: String, // Número de la tarjeta de crédito
-    var fechaCaducidad: LocalDate, // Fecha de caducidad de la tarjeta
-    var tipoTarjeta: Tarjeta // Tipo de tarjeta (VISA, MASTERCARD, etc.)
+    montoPagado: Double,
+    fechaPagado: LocalDate,
+    var numeroTarjeta: String,
+    var fechaCaducidad: LocalDate,
+    var tipoTarjeta: Tarjeta
 ) : Pago(montoPagado, fechaPagado) {
     override fun procesarPago(): Boolean {
-        //println("Procesando pago con tarjeta de crédito de $montoPagado el día $fechaPagado")
         println("Procesando pago con tarjeta $tipoTarjeta con número $numeroTarjeta por un monto de $montoPagado")
         return true
     }

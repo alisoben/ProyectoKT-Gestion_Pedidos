@@ -1,12 +1,26 @@
 package models
 
-class Detalle(
-    val producto: Producto, // Producto del detalle
-    var cantidad: Int,    // Cantidad del producto
-    val impuesto: Double = 0.18, // Porcentaje del impuesto (por ejemplo, 0.18 para 18%)
-    //var precioUnitario: Double = 0.0 // Precio unitario del producto
-) {
+class Detalle(producto: Producto, cantidad: Int, impuesto: Double = 0.18) {
+    val producto: Producto //Referencia directa a una instancia de Producto-Cumpliendo con la relacion de asociación
+    var cantidad: Int = cantidad
+        get() = field
+        set(value) {
+            if (value >= 0) {
+                field = value
+            } else {
+                println("Error, valor de cantidad invalida")
+                field = 0
+            }
+        }
+    val impuesto: Double
+
+    init {
+        this.producto = producto
+        this.cantidad = cantidad
+        this.impuesto = impuesto
+    }
+
     fun calcularCostoConImpuesto(): Double {
-        return cantidad * producto.precioUnitario * (1 + impuesto) // Calcular el costo total con impuesto
+        return cantidad * producto.precioUnitario * (1 + impuesto)
     }
 }
