@@ -31,6 +31,9 @@ class PagoCuotas(
             cuotasPagadas[numeroCuota - 1] = true
             println("La cuota $numeroCuota ha sido pagada con éxito.")
 
+            // Reducir el monto de la cuota del saldo restante del pedido
+            pedido.costeTotal -= montoCuota
+
             // Verifica si todas las cuotas han sido pagadas
             if (cuotasPagadas.all { it }) {
                 pedido.estado = Estado.PAGADO
