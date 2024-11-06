@@ -10,6 +10,7 @@ class Pedido(
     var costeTotal: Double = 0.0,
     var detalles: MutableList<Detalle> = mutableListOf(), // Lista de Detalle como parte de la composición: los detalles pertenecen al pedido
     var pagos: MutableList<Pago> = mutableListOf()  // Lista de Pago, Composición: permite múltiples pagos para un pedido
+
 ) {
     fun agregarDetalle(detalle: Detalle) {
         if (detalle.producto.stock >= detalle.cantidad) {
@@ -70,4 +71,5 @@ class Pedido(
         pagos.clear()
         println("El pedido ha sido eliminado exitosamente.")
     }
+
 }
