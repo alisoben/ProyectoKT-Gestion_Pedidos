@@ -150,7 +150,7 @@ fun main() {
                                             val fechaCaducidad = LocalDate.parse(scanner.next())
                                             println("Ingrese el tipo de tarjeta (1. VISA, 2. MASTERCARD): ")
                                             val tipoTarjeta = if (scanner.nextInt() == 1) Tarjeta.VISA else Tarjeta.MASTERCARD
-                                            PagoTarjetaCredito(pedido.costeTotal, LocalDate.now(), numeroTarjeta, fechaCaducidad, tipoTarjeta)
+                                            PagoTarjetaCredito(pedido.costeTotal, LocalDate.now(),1, numeroTarjeta, fechaCaducidad, tipoTarjeta )
                                         }
 
                                         2 -> {
@@ -160,13 +160,13 @@ fun main() {
                                             val numeroCheque = scanner.next()
                                             print("Ingrese el nombre del banco: ")
                                             val entidadBancaria = scanner.next()
-                                            PagoCheque(pedido.costeTotal, LocalDate.now(), nombreTitular, numeroCheque, entidadBancaria)
+                                            PagoCheque(pedido.costeTotal, LocalDate.now(),1, nombreTitular, numeroCheque, entidadBancaria)
                                         }
 
                                         3 -> {
                                             print("Ingrese el tipo de moneda (USD, EUR, PEN): ")
                                             val moneda = scanner.next()
-                                            PagoEfectivo(pedido.costeTotal, LocalDate.now(), moneda)
+                                            PagoEfectivo(pedido.costeTotal, LocalDate.now(), 1,moneda)
                                         }
 
                                         else -> {
@@ -186,7 +186,7 @@ fun main() {
 
                                     print("Ingrese el número de cuotas: ")
                                     val numeroCuotas = scanner.nextInt()
-                                    val pagoCuotas = PagoCuotas(pedido.costeTotal, LocalDate.now(), numeroCuotas)
+                                    val pagoCuotas = Pago(pedido.costeTotal, LocalDate.now(), numeroCuotas)
                                     pagoCuotas.mostrarCuotas()
 
                                     var pagarOtraCuota = true
@@ -209,7 +209,7 @@ fun main() {
                                                 val fechaCaducidad = LocalDate.parse(scanner.next())
                                                 println("Ingrese el tipo de tarjeta (1. VISA, 2. MASTERCARD): ")
                                                 val tipoTarjeta = if (scanner.nextInt() == 1) Tarjeta.VISA else Tarjeta.MASTERCARD
-                                                PagoTarjetaCredito(pagoCuotas.getMontoCuota(), LocalDate.now(), numeroTarjeta, fechaCaducidad, tipoTarjeta)
+                                                PagoTarjetaCredito(pagoCuotas.getMontoCuota(), LocalDate.now(), numeroCuotas,numeroTarjeta, fechaCaducidad, tipoTarjeta)
                                             }
 
                                             2 -> {
@@ -219,13 +219,13 @@ fun main() {
                                                 val numeroCheque = scanner.next()
                                                 print("Ingrese el nombre del banco: ")
                                                 val entidadBancaria = scanner.next()
-                                                PagoCheque(pagoCuotas.getMontoCuota(), LocalDate.now(), nombreTitular, numeroCheque, entidadBancaria)
+                                                PagoCheque(pagoCuotas.getMontoCuota(), LocalDate.now(), numeroCuotas, nombreTitular, numeroCheque, entidadBancaria)
                                             }
 
                                             3 -> {
                                                 print("Ingrese el tipo de moneda (USD, EUR, PEN): ")
                                                 val moneda = scanner.next()
-                                                PagoEfectivo(pagoCuotas.getMontoCuota(), LocalDate.now(), moneda)
+                                                PagoEfectivo(pagoCuotas.getMontoCuota(), LocalDate.now(), numeroCuotas, moneda)
                                             }
 
                                             else -> {
