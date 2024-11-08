@@ -1,9 +1,10 @@
 package models
 
-class Producto (idProducto: Int, nombreProducto: String, precioUnitario: Double, stock: Int ){
+class Producto (idProducto: Int, nombreProducto: String, precioUnitario: Double, tipoMoneda: String, stock: Int ){
     var idProducto: Int = 0
     var nombreProducto: String = ""
     var precioUnitario: Double = 0.0
+    var tipoMoneda: String = ""
     var stock: Int = stock
         get() = field
         set(value) {
@@ -20,13 +21,14 @@ class Producto (idProducto: Int, nombreProducto: String, precioUnitario: Double,
         this.nombreProducto = nombreProducto
         this.precioUnitario = precioUnitario
         this.stock = stock
+        this.tipoMoneda = tipoMoneda
     }
 
     companion object {
         fun mostrarProducto(listaProductos: List<Producto>) {
             println("Lista de productos disponibles:")
             listaProductos.forEach { producto ->
-                println("ID: ${producto.idProducto}, Nombre: ${producto.nombreProducto}, Precio: ${producto.precioUnitario}, Stock: ${producto.stock}")
+                println("ID: ${producto.idProducto}, Nombre: ${producto.nombreProducto}, Precio: ${producto.precioUnitario}, Moneda: ${producto.tipoMoneda}, Stock: ${producto.stock}")
             }
         }
 

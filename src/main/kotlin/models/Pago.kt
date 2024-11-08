@@ -25,6 +25,8 @@ open class Pago(montoPagado: Double, fechaPagado: LocalDate, numeroCuotas: Int =
             }
         }
     var fechaPagado: LocalDate = LocalDate.now()
+    val montoSoles = montoPagado*3.77
+    val montoEuros = montoPagado*0.93
 
     init {
         this.montoPagado = montoPagado

@@ -164,8 +164,40 @@ fun main() {
                                         }
 
                                         3 -> {
-                                            print("Ingrese el tipo de moneda (USD, EUR, PEN): ")
-                                            val moneda = scanner.next()
+                                            var monedaDenegada = true
+                                            var moneda = ""
+                                            while(monedaDenegada){
+                                                println("Ingrese el tipo de moneda:")
+                                                println("1. Dolar Estadounidense: USD")
+                                                println("2. Euro: EUR")
+                                                println("3. Sol peruano: PEN")
+                                                print("Seleccione una opción: ")
+                                                val opcionMoneda = try {
+                                                    scanner.nextInt()
+                                                } catch (e: InputMismatchException) {
+                                                    println("Opción no válida, ingresa un número válido.")
+                                                    scanner.nextLine()
+                                                    continue
+                                                }
+                                                when(opcionMoneda){
+                                                    1 -> {
+                                                        moneda = "USD"
+                                                        monedaDenegada = false
+                                                    }
+                                                    2 -> {
+                                                        moneda = "EUR"
+                                                        monedaDenegada = false
+                                                    }
+                                                    3 -> {
+                                                        moneda = "PEN"
+                                                        monedaDenegada = false
+                                                    }
+                                                    else -> {
+                                                        println("Seleccione entre los 3 tipos de monedas permitidas")
+                                                    }
+                                                }
+
+                                            }
                                             PagoEfectivo(pedido.costeTotal, LocalDate.now(), 1,moneda)
                                         }
 
@@ -223,8 +255,40 @@ fun main() {
                                             }
 
                                             3 -> {
-                                                print("Ingrese el tipo de moneda (USD, EUR, PEN): ")
-                                                val moneda = scanner.next()
+                                                var monedaDenegada = true
+                                                var moneda = ""
+                                                while(monedaDenegada){
+                                                    println("Ingrese el tipo de moneda:")
+                                                    println("1. Dolar Estadounidense: USD")
+                                                    println("2. Euro: EUR")
+                                                    println("3. Sol peruano: PEN")
+                                                    print("Seleccione una opción: ")
+                                                    val opcionMoneda = try {
+                                                        scanner.nextInt()
+                                                    } catch (e: InputMismatchException) {
+                                                        println("Opción no válida, ingresa un número válido.")
+                                                        scanner.nextLine()
+                                                        continue
+                                                    }
+                                                    when(opcionMoneda){
+                                                        1 -> {
+                                                            moneda = "USD"
+                                                            monedaDenegada = false
+                                                        }
+                                                        2 -> {
+                                                            moneda = "EUR"
+                                                            monedaDenegada = false
+                                                        }
+                                                        3 -> {
+                                                            moneda = "PEN"
+                                                            monedaDenegada = false
+                                                        }
+                                                        else -> {
+                                                            println("Seleccione entre los 3 tipos de monedas permitidas")
+                                                        }
+                                                    }
+
+                                                }
                                                 PagoEfectivo(pagoCuotas.getMontoCuota(), LocalDate.now(), numeroCuotas, moneda)
                                             }
 
@@ -235,7 +299,7 @@ fun main() {
                                         }
 
                                         pagoCuotas.pagarCuota(numeroCuota, pedido)
-                                        println("Cuota $numeroCuota pagada con éxito.")
+
 
                                         print("¿Desea pagar otra cuota? (s/n): ")
                                         pagarOtraCuota = scanner.next().lowercase() == "s"

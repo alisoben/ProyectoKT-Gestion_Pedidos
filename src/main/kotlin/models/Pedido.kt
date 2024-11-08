@@ -62,7 +62,7 @@ class Pedido(
     fun mostrarDetallePedido(pedidos: List<Pedido>) {
         println("Lista de pedidos:")
         pedidos.forEachIndexed { index, pedido ->
-            println("Pedido ${index + 1} : Estado: ${pedido.estado}, Coste Total: ${pedido.costeTotal}, Fecha de Pedido: ${pedido.fechaCreacion}")
+            println("Pedido ${index + 1} : Estado: ${pedido.estado}, Coste Total: ${pedido.costeTotal} USD, Fecha de Pedido: ${pedido.fechaCreacion}")
         }
     }
 
