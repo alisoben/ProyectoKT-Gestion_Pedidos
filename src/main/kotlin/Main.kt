@@ -223,10 +223,14 @@ fun main() {
 
                                     var pagarOtraCuota = true
                                     while (pagarOtraCuota) {
-                                        print("Ingrese el número de la cuota a pagar: ")
-                                        val numeroCuota = scanner.nextInt()
+                                        val numeroCuotaPendiente = pagoCuotas.obtenerPrimeraCuotaPendiente()
 
-                                        println("Métodos de pago disponibles para la cuota:")
+                                        if (numeroCuotaPendiente <= 0) {
+                                            println("Todas las cuotas ya están pagadas.")
+                                            break
+                                        }
+
+                                        println("Métodos de pago disponibles para la cuota $numeroCuotaPendiente:")
                                         println("1. Tarjeta de crédito")
                                         println("2. Cheque")
                                         println("3. Efectivo")
@@ -298,7 +302,7 @@ fun main() {
                                             }
                                         }
 
-                                        pagoCuotas.pagarCuota(numeroCuota, pedido)
+                                        pagoCuotas.pagarCuota(numeroCuotaPendiente, pedido)
 
 
                                         print("¿Desea pagar otra cuota? (s/n): ")

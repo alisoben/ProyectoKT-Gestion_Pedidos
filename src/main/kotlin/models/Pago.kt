@@ -54,6 +54,10 @@ open class Pago(montoPagado: Double, fechaPagado: LocalDate, numeroCuotas: Int =
     fun getMontoCuota(): Double {
         return montoCuota
     }
+    //Método para obtener la primera cuota pendiente
+    fun obtenerPrimeraCuotaPendiente(): Int {
+        return cuotasPagadas.indexOfFirst { !it } + 1
+    }
 
     // Método para pagar una cuota específica
     open fun pagarCuota(numeroCuota: Int, pedido: Pedido) {
