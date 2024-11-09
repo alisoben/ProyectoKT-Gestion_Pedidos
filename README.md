@@ -1,4 +1,4 @@
-## 📘 Caso de estudio
+## 📘 Caso de estudio implementado
 
 - **Representa mediante un diagrama de clases la siguiente especificación relacionada con una aplicación de gestión de pedidos.** Dicha aplicación debe guardar la información de los pedidos que realizan sus clientes y la fecha en que se formalizan.
   
