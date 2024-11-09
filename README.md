@@ -1,3 +1,13 @@
+## Parcial - ejercicio 2
+
+## Grupo 1
+- **Galvez Arango, Alder Benjamin
+- **cuchillo Huillcaya diego armando
+- **Fernández Dávila David Jhonatan
+- **Mendoza bermejo, Darwin Karls
+- **Quispe Rueda, Diego Kevin
+- **Gonzales Torres Carlos Arturo
+
 ## 📘 Implementación del caso 02
 
 - **Representa mediante un diagrama de clases la siguiente especificación relacionada con una aplicación de gestión de pedidos.** Dicha aplicación debe guardar la información de los pedidos que realizan sus clientes y la fecha en que se formalizan.
